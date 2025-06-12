@@ -13,7 +13,7 @@ import facebook_icon from "./facebook_icon.svg";
 import googleplus_icon from "./googleplus_icon.svg";
 import twitter_icon from "./twitter_icon.svg";
 import logo from "./logo.svg";
-import logo1 from "./logo1.svg";
+// import logo1 from "./logo1.svg";
 import arrow from "./arrow.svg";
 import logo_light from "./logo_light.svg";
 import blog_icon from "./blog_icon.png";
@@ -25,6 +25,7 @@ import user_icon from "./user_icon.svg";
 import bin_icon from "./bin_icon.svg";
 import comment_icon from "./comment_icon.svg";
 import tick_icon from "./tick_icon.svg";
+import x_icon from "./x_icon.svg";
 import star_icon from "./star_icon.svg";
 import cross_icon from "./cross_icon.svg";
 import home_icon from "./home_icon.svg";
@@ -39,7 +40,7 @@ const assets = {
   googleplus_icon,
   twitter_icon,
   logo,
-  logo1,
+  // logo1,
   arrow,
   logo_light,
   blog_icon,
@@ -50,6 +51,7 @@ const assets = {
   bin_icon,
   comment_icon,
   tick_icon,
+  x_icon,
   star_icon,
   home_icon,
   gradientBackground,
@@ -94,7 +96,7 @@ export const blog_data = [
     createdAt: "2025-04-21T07:08:56.214Z",
     updatedAt: "2025-04-24T08:30:47.920Z",
     __v: 0,
-    isPublished: true,
+    isPublished: false,
     subTitle: "Creating an effective <strong>startup roadmap",
     author: "Lena Brooks",
   },
