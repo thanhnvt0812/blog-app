@@ -2,17 +2,24 @@
 import React, { useEffect, useState } from "react";
 import { comments_data } from "../../assets/assets";
 import CommentTableItem from "../../components/admin/CommentTableItem";
+import { useAppContext } from "../../context/AppContext";
+import toast from "react-hot-toast";
 
 const Comments = () => {
   const [comments, setComments] = useState([]);
   const [filter, setFilter] = useState("All");
+  const { axios } = useAppContext();
 
   const fetchComments = async () => {
-    setComments(comments_data);
+    try {
+      const { data } = await axios.get("/api/admin/comments");
+      data.success ? setComments(data.comments) : toast.error(data.message);
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
   useEffect(() => {
     fetchComments();
-    console.log("haha" + comments_data);
   }, []);
   return (
     <div className="flex-1 pt-5 px-5 sm:pt-12 sm:pl-16 bg-blue-50/50">

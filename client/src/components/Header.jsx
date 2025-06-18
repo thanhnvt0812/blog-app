@@ -1,7 +1,20 @@
-import React from "react";
+/* eslint-disable no-unused-vars */
+import React, { useRef } from "react";
 import assets from "../assets/assets";
+import { useAppContext } from "../context/AppContext";
 
 const Header = () => {
+  const { setInput, input } = useAppContext();
+  const inputRef = useRef();
+  const onSearchHandler = async (e) => {
+    e.preventDefault();
+    setInput(inputRef.current.value);
+  };
+  const handleClear = () => {
+    setInput("");
+    inputRef.current.focus(); // Đặt lại focus vào ô input nếu muốn
+  };
+
   return (
     <div className="mx-8 sm:mx-16 xl:mx-24 relative">
       <div className="text-center mt-20 mb-8">
@@ -17,19 +30,37 @@ const Header = () => {
           every topic under the sun finds its voice. Whether it's one word or a
           thousand, your story starts here.
         </p>
-        <form className="flex justify-between max-w-lg max-sm:scale-75 mx-auto border border-gray-300 bg-white rounded overflow-hidden">
+        <form
+          onSubmit={onSearchHandler}
+          className="flex justify-between max-w-lg max-sm:scale-75 mx-auto border border-gray-300 bg-white rounded overflow-hidden px-1 py-3 m-3.5"
+        >
           <input
+            ref={inputRef}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
             className="w-full pl-4 outline-none"
             type="text"
             placeholder="Search for blogs"
             required
           />
-          <button
+
+          {/* Hiển thị dấu X nếu có nội dung */}
+          {input && (
+            <button
+              type="button"
+              onClick={handleClear}
+              className="text-gray-400 hover:text-red-500 px-2 text-xl flex items-center"
+            >
+              ×
+            </button>
+          )}
+
+          {/* <button
             className="bg-primary text-white px-8 py-2 m-1.5 rounded hover:scale-105 transition-all cursor-pointer"
             type="submit"
           >
             Search
-          </button>
+          </button> */}
         </form>
       </div>
       <img

@@ -1,13 +1,31 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
+import { useAppContext } from "../../context/AppContext";
+import { toast } from "react-hot-toast";
+import axios from "axios";
 
 const Login = () => {
+  const { setToken } = useAppContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     // Handle login logic here
-    console.log("Login form submitted");
+    try {
+      const { data } = await axios.post("/api/admin/login", {
+        email,
+        password,
+      });
+      if (data.success) {
+        setToken(data.token);
+        localStorage.setItem("token", data.token);
+        axios.defaults.headers.common["Authorization"] = `${data.token}`;
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
   return (
     <div className="flex items-center justify-center h-screen">

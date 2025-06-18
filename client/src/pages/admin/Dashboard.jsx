@@ -4,6 +4,8 @@ import assets, { dashboard_data } from "../../assets/assets";
 import Blog from "../Blog";
 import BlogTableItems from "../../components/admin/BlogTableItems";
 import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../../context/AppContext";
+import toast from "react-hot-toast";
 
 const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState({
@@ -12,10 +14,18 @@ const Dashboard = () => {
     drafts: 0,
     recentBlogs: [],
   });
+  const { axios } = useAppContext();
 
   const navigate = useNavigate();
   const fetchDashboardData = async () => {
-    setDashboardData(dashboard_data);
+    try {
+      const { data } = await axios.post("/api/admin/dashboard");
+      data.success
+        ? setDashboardData(data.dashboardData)
+        : toast.error(data.message);
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
   useEffect(() => {
     fetchDashboardData();
@@ -46,7 +56,7 @@ const Dashboard = () => {
           <img src={assets.dashboard_icon_3} alt="" />
           <div>
             <p className="text-xl font-semibold text-gray-600">
-              {dashboardData.drafts}
+              {dashboardData.draft}
             </p>
             <p className="text-gray-400 font-light">Drafts</p>
           </div>
@@ -81,9 +91,9 @@ const Dashboard = () => {
                 <th scope="col" className="px-2 py-4 max-sm:hidden">
                   Status
                 </th>
-                <th scope="col" className="px-2 py-4">
-                  Actions
-                </th>
+                {/* <th scope="col" className="px-2 py-4">
+                    Actions
+                  </th> */}
               </tr>
             </thead>
             <tbody>
@@ -94,6 +104,7 @@ const Dashboard = () => {
                     blog={blog}
                     index={index + 1}
                     fetchBlogs={dashboardData}
+                    hideLastColumn={true}
                   />
                 );
               })}
